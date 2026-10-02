@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pending Works | Dheeraj Koranga</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="auth-locked">
+
+<!-- FULL-SCREEN LOGIN GATE -->
+<section id="loginGate" class="login-gate" aria-label="Login">
+    <div class="login-content">
+        <div class="login-brand">DREAM OF LIFE</div>
+        <div class="login-line"></div>
+        <div class="login-card">
+            <div class="login-icon">🔐</div>
+            <h1 id="gateTitle">Welcome Back</h1>
+            <p id="gateMessage">Login to enter your personal world.</p>
+            <label for="gateEmail">Email</label>
+            <input id="gateEmail" type="email" placeholder="you@example.com" autocomplete="email">
+            <label for="gatePassword">Password</label>
+            <input id="gatePassword" type="password" placeholder="Your password" autocomplete="current-password">
+            <button id="gateSubmit" class="gate-submit" onclick="submitGateAuth()">Login</button>
+            <button id="gateSwitch" class="gate-switch" onclick="toggleGateMode()">Create Account</button>
+            <div id="gateStatus" class="gate-status"></div>
+        </div>
+        <div class="login-footer">Your dreams. Your memories. Your journey.</div>
+    </div>
+</section>
+
+<div class="bg-overlay"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="logo"><span><img src="./pending.jpg" alt="Pending Works"></span><b>Pending Works</b></div>
+    <nav>
+        <button class="nav-item active" onclick="scrollToSection('home')"><span>⌂</span> Home</button>
+        <button class="nav-item" onclick="scrollToSection('profile')"><span>♙</span> Profile</button>
+        <button class="nav-item" onclick="scrollToSection('gallery')"><span>▧</span> Gallery</button>
+        <button class="nav-item" onclick="scrollToSection('goals')"><span>◎</span> Goals</button>
+        <button class="nav-item" onclick="scrollToSection('projects')"><span>&lt;/&gt;</span> Projects</button>
+        <button class="nav-item" onclick="scrollToSection('about')"><span>♙</span> About</button>
+        <button class="nav-item" onclick="scrollToSection('contact')"><span>✉</span> Contact</button>
+    </nav>
+    <div class="sidebar-quote">
+        <p>"Big dreams<br>take time,<br>but every step<br>counts..."</p>
+        <div class="mountain-small">⌁⌁⌁</div>
+    </div>
+</aside>
+
+<main class="main">
+
+    <!-- TOP -->
+    <header class="topbar">
+        <div></div>
+        <div class="top-icons">
+            <button onclick="toggleTheme()" title="Theme">☀</button>
+            <button onclick="showNotification()" title="Notification">♧<small>1</small></button>
+            <button id="authButton" class="auth-btn" onclick="handleAuthButton()">Login</button>
+            <div class="avatar" id="topAvatar">👤</div>
+            <span>⌄</span>
+        </div>
+    </header>
+
+    <!-- HOME -->
+    <section id="home" class="hero long-section">
+        <div class="hero-text">
+            <p class="good-evening">Good Evening,</p>
+            <h1 id="heroName">Dheeraj Koranga 👋</h1>
+            <p class="roles">Student &nbsp;•&nbsp; Developer &nbsp;•&nbsp; Dreamer</p>
+            <div class="quote">
+                <p>"Same dreams...<br>Higher mountains...<br>Better me..."</p>
+            </div>
+            <div class="hero-buttons">
+                <button class="orange-btn" onclick="scrollToSection('goals')">My Goals →</button>
+                <button class="outline-btn" onclick="scrollToSection('gallery')">▧ &nbsp; View Gallery</button>
+            </div>
+        </div>
+
+        <div class="time-card">
+            <div class="time">🕐 <span id="clock">06:24 PM</span></div>
+            <p id="date">Saturday, 6 September 2026</p>
+            <div class="time-message">☀️ &nbsp; "Good Things Take Time"</div>
+        </div>
+    </section>
+
+    <!-- PROFILE + STATS -->
+    <section id="profile" class="profile-stats long-section">
+        <div class="profile-card">
+            <div class="profile-photo" id="profilePhotoBox">
+                <span id="profileEmoji">👤</span>
+                <img id="profileImage" alt="Profile photo">
+            </div>
+
+            <div class="profile-info">
+                <h2 id="profileName">Dheeraj Koranga</h2>
+                <p id="profileRole">Student • Developer • Dreamer</p>
+                <p class="small-text" id="profileBio">Turning ideas into reality,<br>one step at a time.</p>
+                <button class="edit-btn" onclick="editProfile()">✎ Edit Profile</button>
+            </div>
+
+            <div class="socials" id="profileSocials">
+                <a href="#" title="Instagram">◎</a>
+                <a href="#" title="GitHub">◉</a>
+                <a href="#" title="LinkedIn">in</a>
+                <a href="#" title="Email">✉</a>
+            </div>
+        </div>
+
+        <div class="stats-card">
+            <div class="stat"><span class="stat-icon">◎</span><strong id="totalGoals">0</strong><small>Total Goals</small></div>
+            <div class="stat"><span class="stat-icon green">✓</span><strong id="completedGoals">0</strong><small>Completed</small></div>
+            <div class="stat"><span class="stat-icon">◷</span><strong id="remainingGoals">0</strong><small>Remaining</small></div>
+            <div class="stat"><span class="stat-icon">▮</span><strong id="progress">0%</strong><small>Progress</small></div>
+        </div>
+    </section>
+
+    <!-- GALLERY + GOALS -->
+    <section class="two-column long-section">
+
+        <div class="glass-card" id="gallery">
+            <div class="card-header">
+                <div>
+                    <h2>🖼️ My Gallery</h2>
+                    <p>Your favourite moments, all in one place.</p>
+                </div>
+                <button class="add-btn" onclick="addImage()">+ Add Image</button>
+            </div>
+
+            <div class="gallery-grid" id="galleryGrid">
+                <button class="add-more" onclick="addImage()"><span>＋</span><small>Add More</small></button>
+            </div>
+
+            <input type="file" id="imageInput" accept="image/*" multiple hidden>
+        </div>
+
+        <div class="glass-card" id="goals">
+            <div class="card-header">
+                <div>
+                    <h2>🎯 Life Goals</h2>
+                    <p class="blue-text">Dream | Plan | Do | Repeat</p>
+                </div>
+                <button class="add-btn" onclick="addGoal()">+ Add Goal</button>
+            </div>
+
+            <div class="goal-list" id="goalList">
+                <div class="empty-goal">
+                    <span>⊕</span>
+                    <h3>Add your first goal</h3>
+                    <p>Start your journey today</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="single-section long-section" id="projects">
+        <div class="glass-card">
+            <div class="card-header">
+                <div>
+                    <h2>&lt;/&gt; My Projects</h2>
+                    <p>Small steps, big dreams.</p>
+                </div>
+                <button class="add-btn" onclick="addProject()">+ Add Project</button>
+            </div>
+            <div class="project-grid" id="projectGrid"></div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="single-section long-section" id="about">
+        <div class="glass-card about">
+            <div class="card-header">
+                <div>
+                    <h2>👤 About Me</h2>
+                    <p>A little more about my journey.</p>
+                </div>
+            </div>
+
+            <div class="about-content">
+                <div>
+                    <p id="aboutText">I am a BCA student, learning web development, AI and new technologies. This website is my personal space to keep track of my dreams, memories, projects and everything I want to achieve in life.</p>
+                    <button class="edit-btn" onclick="editAbout()">Edit About</button>
+                </div>
+                <div class="about-quote">
+                    <p>"Same<br>Mountains,<br>Bigger<br>Dreams."</p>
+                    <span>⛰️</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="glass-card contact long-section" id="contact">
+        <div class="card-header">
+            <div>
+                <h2>✉ Contact Me</h2>
+                <p>Let's connect and build something.</p>
+            </div>
+            <button class="add-btn" onclick="editContact()">✎ Edit Links</button>
+        </div>
+        <div class="contact-buttons" id="contactButtons"></div>
+    </section>
+
+    <footer>
+        <span>Made with ❤️ by <span id="footerName">Dheeraj Koranga</span></span>
+        <span>Keep Going &nbsp;•&nbsp; Keep Growing &nbsp;•&nbsp; One Day at a Time ⛰️</span>
+    </footer>
+</main>
+
+<!-- PROFILE MODAL -->
+<div class="modal" id="profileModal">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeModal('profileModal')">×</button>
+        <h2>👤 Edit Profile</h2>
+        <label>Name</label>
+        <input id="editName" type="text" placeholder="Your name">
+        <label>Bio</label>
+        <textarea id="editBio" rows="4" placeholder="Write your bio"></textarea>
+        <label>Profile Photo</label>
+        <input id="profilePhotoInput" type="file" accept="image/*">
+        <div class="modal-actions">
+            <button class="outline-btn" onclick="closeModal('profileModal')">Cancel</button>
+            <button class="orange-btn" onclick="saveProfile()">Save Profile</button>
+        </div>
+    </div>
+</div>
+
+<!-- IMAGE VIEWER -->
+<div class="image-viewer" id="imageViewer" onclick="closeImageViewer(event)">
+    <button class="viewer-close" onclick="closeImageViewer()">×</button>
+    <img id="viewerImage" alt="Full size gallery image">
+</div>
+
+<!-- PROJECT MODAL -->
+<div class="modal" id="projectModal">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeModal('projectModal')">×</button>
+        <h2>🚀 Add Project</h2>
+        <label>Project Name</label>
+        <input id="projectNameInput" type="text" placeholder="My Website">
+        <label>Description</label>
+        <textarea id="projectDescInput" rows="3" placeholder="What is this project?"></textarea>
+        <label>Project URL</label>
+        <input id="projectUrlInput" type="url" placeholder="https://example.com">
+        <label>Icon / Emoji</label>
+        <input id="projectIconInput" type="text" placeholder="💻" maxlength="4">
+        <div class="modal-actions">
+            <button class="outline-btn" onclick="closeModal('projectModal')">Cancel</button>
+            <button class="orange-btn" onclick="saveProject()">Add Project</button>
+        </div>
+    </div>
+</div>
+
+<!-- CONTACT MODAL -->
+<div class="modal" id="contactModal">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeModal('contactModal')">×</button>
+        <h2>🔗 Edit Contact Links</h2>
+        <label>Email</label>
+        <input id="contactEmail" type="email" placeholder="you@example.com">
+        <label>Instagram URL</label>
+        <input id="contactInstagram" type="url" placeholder="https://instagram.com/username">
+        <label>GitHub URL</label>
+        <input id="contactGithub" type="url" placeholder="https://github.com/username">
+        <label>LinkedIn URL</label>
+        <input id="contactLinkedin" type="url" placeholder="https://linkedin.com/in/username">
+        <label>Other URL</label>
+        <input id="contactOther" type="url" placeholder="https://yourwebsite.com">
+        <div class="modal-actions">
+            <button class="outline-btn" onclick="closeModal('contactModal')">Cancel</button>
+            <button class="orange-btn" onclick="saveContact()">Save Links</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- AUTH MODAL -->
+<div class="modal" id="authModal">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeModal('authModal')">×</button>
+        <h2 id="authTitle">🔐 Login</h2>
+        <p id="authMessage" class="auth-message">Login to keep your personal data synced on PC and phone.</p>
+        <label>Email</label>
+        <input id="authEmail" type="email" placeholder="you@example.com" autocomplete="email">
+        <label>Password</label>
+        <input id="authPassword" type="password" placeholder="Your password" autocomplete="current-password">
+        <div class="modal-actions">
+            <button class="outline-btn" onclick="toggleAuthMode()" id="authSwitch">Create account</button>
+            <button class="orange-btn" onclick="submitAuth()" id="authSubmit">Login</button>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+LOGIN PAGE SETUP
+
+1. Keep your main website background as background.jpg.
+2. Put a separate 4K mountain image in this same folder.
+3. Name that login image exactly: login-background.jpg
+4. Open the website with Live Server.
+5. The website will first show DREAM OF LIFE + Login screen.
+6. Correct Supabase email/password opens the main dashboard.
+7. Logout returns to the login screen.
+
+Important: Never put a Supabase service_role/secret key in this website. The publishable key is the client-side key.
